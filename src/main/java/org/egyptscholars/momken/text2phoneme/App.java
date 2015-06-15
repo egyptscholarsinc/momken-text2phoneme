@@ -22,10 +22,26 @@ public class App
 		
 		ArrayList<String> phonemeEntries=new ArrayList<String>();
 		
+		String lastChar = "";
 		for(int i=0 ; i < text.length(); i++){
 			String x = lookupTable.get(Character.toString(text.charAt(i)));
-			if (x != null)
-				phonemeEntries.add(x);
+			if (x != null){
+				String nextCh = lookupTable.get(Character.toString(text.charAt(i+1)));
+				//Handle Special Case of aa
+				if(nextCh != null && (nextCh.startsWith("Z") ||
+									  nextCh.startsWith("d") ||
+									  nextCh.startsWith(".d") ||
+									  nextCh.startsWith("m") ||
+									  nextCh.startsWith("t.")||
+									  nextCh.startsWith("z.")||
+									  nextCh.startsWith("s."))
+						&& x.startsWith("aa")){
+					phonemeEntries.add("a 62 2 88 16 88 23 90 30 90 48 90 55 90 62 93 69 93 76 95 83 95 90 97 97 97");
+				}else{
+					phonemeEntries.add(x);
+				}
+				lastChar = x;
+			}
 		}
 		return phonemeEntries;
 	}
