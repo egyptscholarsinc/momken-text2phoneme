@@ -22,25 +22,33 @@ public class App
 		
 		ArrayList<String> phonemeEntries=new ArrayList<String>();
 		
-		String lastChar = "";
-		for(int i=0 ; i < text.length(); i++){
-			String x = lookupTable.get(Character.toString(text.charAt(i)));
-			if (x != null){
+		//String lastChar = "";
+		for(int i=0 ; i < text.length()-1; i++){
+			String currentChar = lookupTable.get(Character.toString(text.charAt(i)));
+			if (currentChar != null){
 				String nextCh = lookupTable.get(Character.toString(text.charAt(i+1)));
 				//Handle Special Case of aa
-				if(nextCh != null && (nextCh.startsWith("Z") ||
-									  nextCh.startsWith("d") ||
-									  nextCh.startsWith(".d") ||
-									  nextCh.startsWith("m") ||
-									  nextCh.startsWith("t.")||
-									  nextCh.startsWith("z.")||
-									  nextCh.startsWith("s."))
-						&& x.startsWith("aa")){
-					phonemeEntries.add("a 62 2 88 16 88 23 90 30 90 48 90 55 90 62 93 69 93 76 95 83 95 90 97 97 97");
+				if(nextCh != null && (currentChar.startsWith("d.") ||
+						currentChar.startsWith("t.")||
+						currentChar.startsWith("z.")||
+						currentChar.startsWith("s."))
+						&& (nextCh.startsWith("a") || nextCh.startsWith("i") || nextCh.startsWith("u"))){
+					phonemeEntries.add(currentChar);
+					if(nextCh.startsWith("a")){
+						phonemeEntries.add("_ 60");
+						phonemeEntries.add(nextCh);
+					}else if(nextCh.startsWith("i")){
+						phonemeEntries.add("_ 60");
+						phonemeEntries.add(nextCh);
+					}else if(nextCh.startsWith("u")){
+						phonemeEntries.add("_ 60");
+						phonemeEntries.add(nextCh);
+					}
+					i++;
 				}else{
-					phonemeEntries.add(x);
+					phonemeEntries.add(currentChar);
 				}
-				lastChar = x;
+				//lastChar = currentChar;
 			}
 		}
 		return phonemeEntries;
