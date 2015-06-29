@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.egyptscholars.momken</groupId>
-  <artifactId>text2phoneme</artifactId>
+  <artifactId>momken-text2phoneme</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>text2phoneme</name>
+  <name>momken-text2phoneme</name>
   <url>http://maven.apache.org</url>
 
   <properties>
@@ -22,4 +22,19 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>org.egyptscholars.momken.text2phoneme.App</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
