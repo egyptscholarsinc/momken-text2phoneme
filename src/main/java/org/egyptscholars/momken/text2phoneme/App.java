@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import edu.stanford.nlp.international.arabic.Buckwalter;
+
 
 /**
  * Text2Phonem
@@ -18,7 +20,7 @@ import java.util.HashMap;
 public class App 
 {
 	
-	private static ArrayList<String> createPhonemes(HashMap<String,String> lookupTable,StringBuffer text){
+	private static ArrayList<String> createPhonemes(HashMap<String,String> lookupTable,String text){
 		
 		ArrayList<String> phonemeEntries=new ArrayList<String>();
 		
@@ -31,26 +33,25 @@ public class App
 				if(nextCh != null && (currentChar.startsWith("d.") ||
 						currentChar.startsWith("t.")||
 						currentChar.startsWith("z.")||
-						currentChar.startsWith("s."))
-						&& (nextCh.startsWith("a") || nextCh.startsWith("i") || nextCh.startsWith("u"))){
+						currentChar.startsWith("s."))){
 					phonemeEntries.add(currentChar);
 					if(nextCh.startsWith("a")){
-						phonemeEntries.add("_ 60");
-						phonemeEntries.add(nextCh);
+						phonemeEntries.add("a. 70 28 109 71 104");
+						i++;
 					}else if(nextCh.startsWith("i")){
-						phonemeEntries.add("_ 60");
-						phonemeEntries.add(nextCh);
+						phonemeEntries.add("i. 70 28 109 71 104");
+						i++;
 					}else if(nextCh.startsWith("u")){
-						phonemeEntries.add("_ 60");
-						phonemeEntries.add(nextCh);
+						phonemeEntries.add("u. 61 35 101 83 102");
+						i++;
 					}
-					i++;
 				}else{
 					phonemeEntries.add(currentChar);
 				}
 				//lastChar = currentChar;
 			}
 		}
+		phonemeEntries.add(lookupTable.get(Character.toString(text.charAt(text.length()-1))));
 		return phonemeEntries;
 	}
 	
@@ -62,8 +63,7 @@ public class App
     	PrintWriter phonemeWrt;
     	HashMap<String,String> lookupTable;
     	String[] parts;
-    	StringBuffer text;
-    	ArrayList<String> phonemeEntries;
+    	ArrayList<String> phonemeEntries= new ArrayList<String>();
     	
         try {
         	
@@ -73,7 +73,6 @@ public class App
         	phonemeWrt = new PrintWriter(new FileWriter(args[2]));
         	
         	lookupTable = new HashMap<String,String>();
-        	text=new StringBuffer();
         	
 			//Load lookup table
 			while((temp = lookupRdr.readLine())!= null){
@@ -82,15 +81,18 @@ public class App
 			}
 			
 			//Load text
+			Buckwalter b = new Buckwalter();
+			String letters;
+
 			while((temp = txtRdr.readLine())!= null){
-				temp = temp.replace(".", " . ");
-				parts = temp.split(" ");
+				temp = temp.replace(".", "");
+				letters = b.unicodeToBuckwalter(temp);
+		    	parts = letters.split(" ");
 				for (int i=0 ; i<parts.length; i++){
-					text.append(parts[i]);
+					phonemeEntries.addAll(createPhonemes(lookupTable, parts[i]));
+					phonemeEntries.add("_ 200");
 				}
 			}
-			
-			phonemeEntries = createPhonemes(lookupTable, text);
 			
 			//Output the results to file
 			for(String entry:phonemeEntries){
