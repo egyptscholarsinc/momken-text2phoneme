@@ -4,7 +4,7 @@
 
   <groupId>org.egyptscholars.momken</groupId>
   <artifactId>momken-text2phoneme</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.2</version>
   <packaging>jar</packaging>
 
   <name>momken-text2phoneme</name>

@@ -39,13 +39,13 @@ public class App
 						currentChar.startsWith("s."))){
 					
 					if(nextCh.charAt(0) == 'a'){
-						phonemeEntries.add("a. 70 28 109 71 104");
+						phonemeEntries.add("a.");
 						i++;
 					}else if(nextCh.charAt(0) == 'i'){
-						phonemeEntries.add("i. 70 28 109 71 104");
+						phonemeEntries.add("i.");
 						i++;
 					}else if(nextCh.charAt(0) == 'u'){
-						phonemeEntries.add("u. 61 35 101 83 102");
+						phonemeEntries.add("u.");
 						i++;
 					}
 				}
@@ -124,14 +124,14 @@ public class App
 					if(cleaned.length()>0){
 						ArrayList<String> ph = createPhonemes(lookupTable, cleaned);
 						phonemeEntries.addAll(ph);
-						phonemeEntries.add("_ 5");
+						phonemeEntries.add("_ \n");
 					}
 				}
 			}
 			
 			//Output the results to file
 			for(String entry:phonemeEntries){
-				phonemeWrt.println(entry);
+				phonemeWrt.print(entry);
 			}
 			
 			System.out.println("Phoneme File Created");
