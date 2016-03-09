@@ -124,7 +124,7 @@ public class App
 					if(cleaned.length()>0){
 						ArrayList<String> ph = createPhonemes(lookupTable, cleaned);
 						phonemeEntries.addAll(ph);
-						phonemeEntries.add("_ \n");
+						phonemeEntries.add("_ \r\n");
 					}
 				}
 			}
